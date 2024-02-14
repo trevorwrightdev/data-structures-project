@@ -35,7 +35,8 @@ def get_distance_between(address1, address2):
     return distance
 
 class Truck:
-    def __init__(self):
+    def __init__(self, id):
+        self.id = id
         self.loaded_packages = set()
         self.current_location = "HUB"
         self.miles_driven = 0
@@ -44,6 +45,8 @@ class Truck:
     def load(self, package):
         if len(self.loaded_packages) == 16:
             raise Exception("Truck is full")
+        if self.current_location != "HUB":
+            raise Exception("Truck is not at the hub")
 
         self.loaded_packages.add(package)
         package.update_status("EN ROUTE")
@@ -66,19 +69,10 @@ class Truck:
                 self.loaded_packages.remove(package)
     
     def get_new_time(self, distance):
-        # Speed is 18 miles per hour
         speed = 18
-        # Calculate time taken to cover the distance in hours
         time_taken = distance / speed
-
-        # Convert current time to datetime object
         current_time_obj = datetime.strptime(self.current_time, "%I:%M %p")
-
-        # Calculate new time by adding the duration
         new_time_obj = current_time_obj + timedelta(hours=time_taken)
-
-        # Convert back to the required format
         new_time_formatted = new_time_obj.strftime("%I:%M %p")
-
         return new_time_formatted
                 

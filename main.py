@@ -52,7 +52,14 @@ def get_package_map():
         map.insert(package_id, new_package)
     return map
 
+def print_line():
+    print('<---------------------------------------->')
 
+def load_truck(truck, packages):
+    print_line()
+    for package in packages:
+        colored_output('cyan', 'Loading package ' + str(package.id) + ' into truck ' + str(truck.id) + '...')
+        truck.load(package)
 
 def main():
     print('\n')
@@ -71,11 +78,11 @@ def main():
 
     # map of packages with package id as key and package object as value
     packages = get_package_map()
-    truck = Truck()
+    truck1 = Truck(1)
+    truck2 = Truck(2)
 
-    truck.load(packages.get(13))
-
-    truck.drive_to_location("1060 Dalton Ave S")
+    # Loading phase 
+    load_truck(truck1, [packages.get(13)])
 
     pass
 
