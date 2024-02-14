@@ -15,9 +15,18 @@ def get_address_csv():
     with open('addresses.csv', 'r') as file:
         addresses = file.readlines()
         for index, address in enumerate(addresses):
-            address = address.strip()  # Remove leading/trailing whitespaces and newlines
+            address = address.strip()  
             addresses_dict[address] = index
     return addresses_dict
+
+def get_distances_matrix():
+    matrix = []
+    with open('distances.csv', 'r') as csvfile:
+        reader = csv.reader(csvfile)
+        for row in reader:
+            row_float = [float(value) if value != '' else None for value in row]
+            matrix.append(row_float)
+    return matrix
 
 def get_package_map():
     package_csv_data = get_package_csv()
@@ -35,11 +44,24 @@ def get_package_map():
         map.insert(package_id, new_package)
     return map
 
+# map of packages with package id as key and package object as value
 packages = get_package_map()
+# map of addresses with address as key and index as value
 addresses = get_address_csv()
+# 2d array of distances between addresses
+distances_matrix = get_distances_matrix()
+
+def get_distance_between(address1, address2):
+    index1 = addresses[address1]
+    index2 = addresses[address2]
+
+    distance = distances_matrix[index1][index2]
+    if distance == None:
+        distance = distances_matrix[index2][index1]
+
+    return distance
 
 def main():
-    print(addresses)
     pass
 
 main()
