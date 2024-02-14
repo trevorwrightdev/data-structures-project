@@ -1,9 +1,45 @@
+import csv
+from datetime import datetime, timedelta
+
+def get_distances_matrix():
+    matrix = []
+    with open('distances.csv', 'r') as csvfile:
+        reader = csv.reader(csvfile)
+        for row in reader:
+            row_float = [float(value) if value != '' else None for value in row]
+            matrix.append(row_float)
+    return matrix
+
+def get_address_csv():
+    addresses_dict = {}
+    with open('addresses.csv', 'r') as file:
+        addresses = file.readlines()
+        for index, address in enumerate(addresses):
+            address = address.strip()  
+            addresses_dict[address] = index
+    return addresses_dict
+
+# 2d array of distances between addresses
+distances_matrix = get_distances_matrix()
+# map of addresses with address as key and index as value
+addresses = get_address_csv()
+
+def get_distance_between(address1, address2):
+    index1 = addresses[address1]
+    index2 = addresses[address2]
+
+    distance = distances_matrix[index1][index2]
+    if distance == None:
+        distance = distances_matrix[index2][index1]
+
+    return distance
+
 class Truck:
     def __init__(self):
         self.loaded_packages = set()
         self.current_location = "HUB"
         self.miles_driven = 0
-        self.current_time = "8:00 AM"
+        self.current_time = "08:00 AM"
     
     def load(self, package):
         if len(self.loaded_packages) == 16:
@@ -12,14 +48,15 @@ class Truck:
         self.loaded_packages.add(package)
         package.update_status("EN ROUTE")
     
-    def drive_to_location(self, location, distance):
+    def drive_to_location(self, location):
+        # get distance between locations
+        distance = get_distance_between(self.current_location, location)
+
         self.current_location = location
         self.miles_driven += distance
 
         # pass the time
         self.current_time = self.get_new_time(distance)
-
-        
 
     def unload(self):
         for package in self.loaded_packages:
@@ -29,25 +66,19 @@ class Truck:
                 self.loaded_packages.remove(package)
     
     def get_new_time(self, distance):
-        # Calculate time taken to travel the distance
-        time_taken_hours = distance / 18
+        # Speed is 18 miles per hour
+        speed = 18
+        # Calculate time taken to cover the distance in hours
+        time_taken = distance / speed
 
-        # Split current time into hours and minutes
-        current_hour, current_minute = map(int, self.current_time[:-6].split(':'))
-        am_pm = self.current_time[-2:]
+        # Convert current time to datetime object
+        current_time_obj = datetime.strptime(self.current_time, "%I:%M %p")
 
-        # Convert current time to minutes
-        total_minutes = current_hour * 60 + current_minute
+        # Calculate new time by adding the duration
+        new_time_obj = current_time_obj + timedelta(hours=time_taken)
 
-        # Add time taken to current time
-        total_minutes += time_taken_hours * 60
+        # Convert back to the required format
+        new_time_formatted = new_time_obj.strftime("%I:%M %p")
 
-        # Calculate new hours and minutes
-        new_hour = total_minutes // 60
-        new_minute = total_minutes % 60
-
-        # Format new time
-        new_time = f"{new_hour % 12 or 12}:{new_minute:02d} {am_pm}"
-
-        return new_time
+        return new_time_formatted
                 
