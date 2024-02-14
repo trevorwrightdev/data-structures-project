@@ -2,16 +2,25 @@ from hashmap import HashMap
 from package import Package
 import csv
 
-def csv_to_array(file_path):
+def get_package_csv():
     data = []
-    with open(file_path, 'r', newline='') as csvfile:
+    with open('packages.csv', 'r', newline='') as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
             data.append(row)
     return data
 
+def get_address_csv():
+    addresses_dict = {}
+    with open('addresses.csv', 'r') as file:
+        addresses = file.readlines()
+        for index, address in enumerate(addresses):
+            address = address.strip()  # Remove leading/trailing whitespaces and newlines
+            addresses_dict[address] = index
+    return addresses_dict
+
 def get_package_map():
-    package_csv_data = csv_to_array("packages.csv")
+    package_csv_data = get_package_csv()
     # Initializing the hashmap with 40 elements, one for each package. 
     map = HashMap(40)
 
@@ -26,9 +35,11 @@ def get_package_map():
         map.insert(package_id, new_package)
     return map
 
-def main():
-    packages = get_package_map()
-    print(packages.get(1))
+packages = get_package_map()
+addresses = get_address_csv()
 
+def main():
+    print(addresses)
+    pass
 
 main()
