@@ -1,32 +1,8 @@
 from hashmap import HashMap
 from package import Package
 from truck import Truck
+from logs import print_line, colored_output
 import csv
-
-def colored_output(color, message):
-    colors = {
-        'red': '\033[91m',
-        'green': '\033[92m',
-        'yellow': '\033[93m',
-        'blue': '\033[94m',
-        'magenta': '\033[95m',
-        'cyan': '\033[96m',
-        'white': '\033[97m',
-        'black': '\033[90m',
-        'bright_red': '\033[91;1m',
-        'bright_green': '\033[92;1m',
-        'bright_yellow': '\033[93;1m',
-        'bright_blue': '\033[94;1m',
-        'bright_magenta': '\033[95;1m',
-        'bright_cyan': '\033[96;1m',
-        'bright_white': '\033[97;1m',
-        'reset': '\033[0m'  
-    }
-    
-    if color in colors:
-        print(colors[color] + message + colors['reset'])
-    else:
-        print("Invalid color specified.")
 
 def get_package_csv():
     data = []
@@ -52,14 +28,28 @@ def get_package_map():
         map.insert(package_id, new_package)
     return map
 
-def print_line():
-    print('<---------------------------------------->')
-
 def load_truck(truck, packages):
     print_line()
+    colored_output('blue', 'LOADING PHASE')
     for package in packages:
         colored_output('cyan', 'Loading package ' + str(package.id) + ' into truck ' + str(truck.id) + '...')
         truck.load(package)
+    print_line()
+    print('\n')
+
+def delivery_algorithm(truck):
+    print_line()
+    colored_output('green', 'DELIVERY PHASE')
+
+    # loop continues until the truck has no more packages
+    while (len(truck.loaded_packages) > 0):
+        nearest_package = truck.get_nearest_package()
+        truck.drive_to_location(nearest_package.delivery_address)
+        truck.unload()
+
+    print_line()
+    print('\n')
+        
 
 def main():
     print('\n')
@@ -82,7 +72,15 @@ def main():
     truck2 = Truck(2)
 
     # Loading phase 
-    load_truck(truck1, [packages.get(13)])
+    load_truck(truck1, [
+        packages.get(1),
+        packages.get(2),
+        packages.get(4),
+        packages.get(5),
+    ])
+
+    # Delivery phase
+    delivery_algorithm(truck1)
 
     pass
 

@@ -1,5 +1,6 @@
 import csv
 from datetime import datetime, timedelta
+from logs import print_line, colored_output
 
 def get_distances_matrix():
     matrix = []
@@ -62,11 +63,16 @@ class Truck:
         self.current_time = self.get_new_time(distance)
 
     def unload(self):
+        packages_unloaded = set()
+
         for package in self.loaded_packages:
             if package.delivery_address == self.current_location:
                 package.update_status("DELIVERED")
                 package.delivery_time = self.current_time
-                self.loaded_packages.remove(package)
+                packages_unloaded.add(package)
+                colored_output('bright_green', 'Package ' + str(package.id) + ' delivered at ' + self.current_location + ' at ' + self.current_time)
+        
+        self.loaded_packages = self.loaded_packages - packages_unloaded
     
     def get_new_time(self, distance):
         speed = 18
@@ -75,4 +81,14 @@ class Truck:
         new_time_obj = current_time_obj + timedelta(hours=time_taken)
         new_time_formatted = new_time_obj.strftime("%I:%M %p")
         return new_time_formatted
+    
+    def get_nearest_package(self):
+        nearest_package = None
+        nearest_distance = 100000
+        for package in self.loaded_packages:
+            distance = get_distance_between(self.current_location, package.delivery_address)
+            if distance < nearest_distance:
+                nearest_distance = distance
+                nearest_package = package
+        return nearest_package
                 
