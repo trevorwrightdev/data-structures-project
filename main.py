@@ -91,7 +91,7 @@ def main():
     print('\n')
     colored_output('cyan', 'Welcome to the WGUPS package delivery system! What would you like to do?')
     print('\n')
-    colored_output('green', 's - Begin pPackage Delivery Simulation and Package Lookup')
+    colored_output('green', 's - Begin Package Delivery Simulation and Package Lookup')
     colored_output('green', 'q - Quit')
     print('\n')
     pass
