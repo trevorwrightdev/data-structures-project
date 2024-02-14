@@ -40,7 +40,8 @@ def get_package_map():
         city = package['city']
         zipcode = int(package['zip'])
         weight = int(package['weight'])
-        new_package = Package(package_id, delivery_address, deadline, city, zipcode, weight)
+        notes = package['notes']
+        new_package = Package(package_id, delivery_address, deadline, city, zipcode, weight, notes)
         map.insert(package_id, new_package)
     return map
 
