@@ -65,13 +65,10 @@ def get_package_map():
         city = package['city']
         zipcode = int(package['zip'])
         weight = int(package['weight'])
-        notes = package['notes']
         new_package = Package(package_id, delivery_address, deadline, city, zipcode, weight)
         map.insert(package_id, new_package)
     return map
 
-# map of packages with package id as key and package object as value
-packages = get_package_map()
 # map of addresses with address as key and index as value
 addresses = get_address_csv()
 # 2d array of distances between addresses
@@ -94,6 +91,19 @@ def main():
     colored_output('green', 's - Begin Package Delivery Simulation and Package Lookup')
     colored_output('green', 'q - Quit')
     print('\n')
+
+    user_input = input('>')
+
+    if user_input != 's':
+        return
+    
+    # Algorithm
+
+    # map of packages with package id as key and package object as value
+    packages = get_package_map()
+
+
+
     pass
 
 main()
