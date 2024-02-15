@@ -46,7 +46,7 @@ def delivery_algorithm(truck):
         truck.drive_to_location(nearest_package.delivery_address)
         truck.unload()
     
-
+    colored_output('red', 'Total miles driven by truck ' + str(truck.id) + ': ' + str(truck.miles_driven) + ' miles')
     print_line()
         
 def main():
@@ -80,8 +80,11 @@ def main():
         packages.get(29),
         packages.get(30),
         packages.get(31),
+        packages.get(33),
         packages.get(34),
+        packages.get(35),
         packages.get(37),
+        packages.get(39),
         packages.get(40)
     ])
 
