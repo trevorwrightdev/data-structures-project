@@ -135,6 +135,7 @@ def simulation():
     colored_output('cyan', 'Total miles driven by truck 1: ' + str(truck1.miles_driven) + ' miles')
     colored_output('cyan', 'Total miles driven by truck 2: ' + str(truck2.miles_driven) + ' miles')
     colored_output('green', 'Total miles driven by both trucks: ' + str(truck1.miles_driven + truck2.miles_driven) + ' miles')
+    print_line()
 
     return history
 
@@ -152,8 +153,20 @@ def main():
         return
     
     history = simulation()
-    test = history.get('8:00AM')
-    for package in test:
-        package.print()
+
+    print('\n')
+    colored_output('cyan', 'The simulation is complete. What would you like to do next?')
+    print('\n')
+    colored_output('green', 's - Package Lookup')
+    colored_output('green', 'b - Back to Main Menu')
+    print('\n')
+
+    user_input = input('>')
+
+    if user_input != 's':
+        main()
+        return
+    
+    
 
 main()
