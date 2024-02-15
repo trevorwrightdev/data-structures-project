@@ -41,7 +41,7 @@ class Truck:
         self.loaded_packages = set()
         self.current_location = "HUB"
         self.miles_driven = 0
-        self.current_time = "08:00 AM"
+        self.current_time = "08:00AM"
     
     def load(self, package):
         if len(self.loaded_packages) == 16:
@@ -58,6 +58,7 @@ class Truck:
 
         self.current_location = location
         self.miles_driven += distance
+        colored_output('bright_yellow', 'Truck ' + str(self.id) + ' driving '+ str(distance) + ' miles to ' + location + '...')
 
         # pass the time
         self.current_time = self.get_new_time(distance)
@@ -70,16 +71,16 @@ class Truck:
                 package.update_status("DELIVERED")
                 package.delivery_time = self.current_time
                 packages_unloaded.add(package)
-                colored_output('bright_green', 'Package ' + str(package.id) + ' delivered at ' + self.current_location + ' at ' + self.current_time)
+                colored_output('bright_green', 'Package ' + str(package.id) + ' delivered to ' + self.current_location + ' at ' + self.current_time)
         
         self.loaded_packages = self.loaded_packages - packages_unloaded
     
     def get_new_time(self, distance):
         speed = 18
         time_taken = distance / speed
-        current_time_obj = datetime.strptime(self.current_time, "%I:%M %p")
+        current_time_obj = datetime.strptime(self.current_time, "%I:%M%p")
         new_time_obj = current_time_obj + timedelta(hours=time_taken)
-        new_time_formatted = new_time_obj.strftime("%I:%M %p")
+        new_time_formatted = new_time_obj.strftime("%I:%M%p")
         return new_time_formatted
     
     def get_nearest_package(self):

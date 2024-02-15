@@ -30,27 +30,25 @@ def get_package_map():
 
 def load_truck(truck, packages):
     print_line()
-    colored_output('blue', 'LOADING PHASE')
+    colored_output('blue', 'TRUCK ' + str(truck.id) + ' LOADING PHASE')
     for package in packages:
         colored_output('cyan', 'Loading package ' + str(package.id) + ' into truck ' + str(truck.id) + '...')
         truck.load(package)
     print_line()
-    print('\n')
 
 def delivery_algorithm(truck):
     print_line()
-    colored_output('green', 'DELIVERY PHASE')
+    colored_output('green', 'TRUCK ' + str(truck.id) + ' DELIVERY PHASE')
 
     # loop continues until the truck has no more packages
     while (len(truck.loaded_packages) > 0):
         nearest_package = truck.get_nearest_package()
         truck.drive_to_location(nearest_package.delivery_address)
         truck.unload()
+    
 
     print_line()
-    print('\n')
         
-
 def main():
     print('\n')
     colored_output('cyan', 'Welcome to the WGUPS package delivery system! What would you like to do?')
@@ -64,8 +62,7 @@ def main():
     if user_input != 's':
         return
     
-    # Algorithm
-
+    # * Algorithm
     # map of packages with package id as key and package object as value
     packages = get_package_map()
     truck1 = Truck(1)
@@ -74,9 +71,18 @@ def main():
     # Loading phase 
     load_truck(truck1, [
         packages.get(1),
-        packages.get(2),
-        packages.get(4),
-        packages.get(5),
+        packages.get(13),
+        packages.get(14),
+        packages.get(15),
+        packages.get(16),
+        packages.get(20),
+        packages.get(21),
+        packages.get(29),
+        packages.get(30),
+        packages.get(31),
+        packages.get(34),
+        packages.get(37),
+        packages.get(40)
     ])
 
     # Delivery phase
