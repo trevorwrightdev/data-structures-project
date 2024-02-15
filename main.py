@@ -46,6 +46,7 @@ def delivery_algorithm(truck):
         truck.drive_to_location(nearest_package.delivery_address)
         truck.unload()
     
+    truck.drive_to_location("HUB")
     colored_output('red', 'Total miles driven by truck ' + str(truck.id) + ': ' + str(truck.miles_driven) + ' miles')
     print_line()
         
@@ -101,10 +102,6 @@ def main():
     # Delivery phase
     delivery_algorithm(truck1)
     delivery_algorithm(truck2)
-
-    # Drive back to hub
-    truck1.drive_to_location("HUB")
-    truck2.drive_to_location("HUB")
 
     pass
 

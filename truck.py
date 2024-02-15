@@ -59,10 +59,11 @@ class Truck:
         self.current_location = location
         new_miles_driven = self.miles_driven + distance
         self.miles_driven = round(new_miles_driven, 1)
-        colored_output('bright_yellow', 'Truck ' + str(self.id) + ' driving '+ str(distance) + ' miles to ' + location + '...')
 
         # pass the time
         self.current_time = self.get_new_time(distance)
+
+        colored_output('bright_yellow', 'Truck ' + str(self.id) + ' drives '+ str(distance) + ' miles to ' + location + ' and arrives at ' + self.current_time)
 
     def unload(self):
         packages_unloaded = set()
@@ -72,7 +73,7 @@ class Truck:
                 package.update_status("DELIVERED")
                 package.delivery_time = self.current_time
                 packages_unloaded.add(package)
-                colored_output('bright_green', 'Package ' + str(package.id) + ' delivered to ' + self.current_location + ' at ' + self.current_time)
+                colored_output('bright_green', 'Package ' + str(package.id) + ' has been delivered to ' + self.current_location + '!')
         
         self.loaded_packages = self.loaded_packages - packages_unloaded
     
