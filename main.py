@@ -138,6 +138,12 @@ def main():
     # Delivery phase
     delivery_algorithm(truck2, False)
 
+    colored_output('cyan', 'All packages have been delivered! Thank you for using the WGUPS package delivery system!')
+    colored_output('blue', 'Stats:')
+    colored_output('cyan', 'Total miles driven by truck 1: ' + str(truck1.miles_driven) + ' miles')
+    colored_output('cyan', 'Total miles driven by truck 2: ' + str(truck2.miles_driven) + ' miles')
+    colored_output('green', 'Total miles driven by both trucks: ' + str(truck1.miles_driven + truck2.miles_driven) + ' miles')
+
     pass
 
 main()

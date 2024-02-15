@@ -38,9 +38,9 @@ def get_distance_between(address1, address2):
 class Truck:
     def __init__(self, id):
         self.id = id
-        self.loaded_packages = set()
+        self.loaded_packages = []
         self.current_location = "HUB"
-        self.miles_driven = 0
+        self.miles_driven = 0.0
         self.current_time = "08:00AM"
     
     def load(self, package):
@@ -49,7 +49,7 @@ class Truck:
         if self.current_location != "HUB":
             raise Exception("Truck is not at the hub")
 
-        self.loaded_packages.add(package)
+        self.loaded_packages.append(package)
         package.update_status("EN ROUTE")
     
     def drive_to_location(self, location):
@@ -57,8 +57,7 @@ class Truck:
         distance = get_distance_between(self.current_location, location)
 
         self.current_location = location
-        new_miles_driven = self.miles_driven + distance
-        self.miles_driven = round(new_miles_driven, 1)
+        self.miles_driven += distance
 
         # pass the time
         self.current_time = self.get_new_time(distance)
@@ -66,16 +65,18 @@ class Truck:
         colored_output('bright_yellow', 'Truck ' + str(self.id) + ' drives '+ str(distance) + ' miles to ' + location + ' and arrives at ' + self.current_time)
 
     def unload(self):
-        packages_unloaded = set()
+        packages_unloaded = []
 
         for package in self.loaded_packages:
             if package.delivery_address == self.current_location:
                 package.update_status("DELIVERED")
                 package.delivery_time = self.current_time
-                packages_unloaded.add(package)
+                packages_unloaded.append(package)
                 colored_output('bright_green', 'Package ' + str(package.id) + ' has been delivered to ' + self.current_location + '!')
         
-        self.loaded_packages = self.loaded_packages - packages_unloaded
+        # Remove unloaded packages from self.loaded_packages
+        for package in packages_unloaded:
+            self.loaded_packages.remove(package)
     
     def get_new_time(self, distance):
         speed = 18
