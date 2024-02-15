@@ -141,6 +141,8 @@ def simulation():
     colored_output('cyan', 'Total miles driven by truck 2: ' + str(truck2.miles_driven) + ' miles')
     colored_output('green', 'Total miles driven by both trucks: ' + str(truck1.miles_driven + truck2.miles_driven) + ' miles')
 
+    return history
+
 
 def main():
     print('\n')
@@ -156,5 +158,7 @@ def main():
         return
     
     history = simulation()
+    for key, value in history.data.items():
+        print('Time: ' + key)
 
 main()
