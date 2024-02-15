@@ -50,7 +50,7 @@ def delivery_algorithm(truck, history, drive_back_to_hub = True):
     if drive_back_to_hub:
         truck.drive_to_location("HUB")
     
-    colored_output('red', 'Total miles driven by truck ' + str(truck.id) + ': ' + str(truck.miles_driven) + ' miles')
+    colored_output('red', 'Total miles driven by truck ' + str(truck.id) + ': ' + str(round(truck.miles_driven, 2)) + ' miles')
     print_line()
         
 def simulation():
@@ -132,9 +132,9 @@ def simulation():
 
     colored_output('cyan', 'All packages have been delivered! Thank you for using the WGUPS package delivery system!')
     colored_output('blue', 'Stats:')
-    colored_output('cyan', 'Total miles driven by truck 1: ' + str(truck1.miles_driven) + ' miles')
-    colored_output('cyan', 'Total miles driven by truck 2: ' + str(truck2.miles_driven) + ' miles')
-    colored_output('green', 'Total miles driven by both trucks: ' + str(truck1.miles_driven + truck2.miles_driven) + ' miles')
+    colored_output('cyan', 'Total miles driven by truck 1: ' + str(round(truck1.miles_driven, 2)) + ' miles')
+    colored_output('cyan', 'Total miles driven by truck 2: ' + str(round(truck2.miles_driven, 2)) + ' miles')
+    colored_output('green', 'Total miles driven by both trucks: ' + str(round(truck1.miles_driven + truck2.miles_driven, 2)) + ' miles')
     print_line()
 
     return history
@@ -166,6 +166,20 @@ def main():
     if user_input != 's':
         main()
         return
+
+
+    while (True):
+        print('\n')
+        colored_output('cyan', 'Please enter the time you would like to look up in the format HH:MMAM/PM. For example, 9:00AM. Or, enter q to exit the program.')
+        print('\n')
+
+        user_input = input('>')
+        if user_input == 'q':
+            return
+
+        snapshot = history.get(user_input)
+        for package in snapshot:
+            package.print()
     
     
 
