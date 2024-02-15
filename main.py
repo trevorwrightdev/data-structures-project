@@ -5,9 +5,6 @@ from history import History
 from logs import print_line, colored_output
 import csv
 
-packages = HashMap(40)
-history = History(packages)
-
 def get_package_csv():
     data = []
     with open('packages.csv', 'r', newline='') as csvfile:
@@ -55,14 +52,12 @@ def delivery_algorithm(truck, history, drive_back_to_hub = True):
     
     colored_output('red', 'Total miles driven by truck ' + str(truck.id) + ': ' + str(truck.miles_driven) + ' miles')
     print_line()
-
-def lookup(package_id):
-    return packages.get(package_id)
         
 def simulation():
     # * Algorithm
     # map of packages with package id as key and package object as value
     packages = get_package_map()
+
     history = History(packages)
 
     truck1 = Truck(1)
@@ -143,7 +138,6 @@ def simulation():
 
     return history
 
-
 def main():
     print('\n')
     colored_output('cyan', 'Welcome to the WGUPS package delivery system! What would you like to do?')
@@ -158,7 +152,8 @@ def main():
         return
     
     history = simulation()
-    for key, value in history.data.items():
-        print('Time: ' + key)
+    test = history.get("5:00PM")
+    for i in range(1, 41):
+        test.get(i).print()
 
 main()
