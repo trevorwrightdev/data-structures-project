@@ -87,9 +87,24 @@ def main():
         packages.get(39),
         packages.get(40)
     ])
+    load_truck(truck2, [   
+        packages.get(2),
+        packages.get(3),
+        packages.get(4),
+        packages.get(5),
+        packages.get(7),
+        packages.get(8),
+        packages.get(10),
+        packages.get(11),
+    ])
 
     # Delivery phase
     delivery_algorithm(truck1)
+    delivery_algorithm(truck2)
+
+    # Drive back to hub
+    truck1.drive_to_location("HUB")
+    truck2.drive_to_location("HUB")
 
     pass
 

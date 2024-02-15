@@ -57,7 +57,8 @@ class Truck:
         distance = get_distance_between(self.current_location, location)
 
         self.current_location = location
-        self.miles_driven += distance
+        new_miles_driven = self.miles_driven + distance
+        self.miles_driven = round(new_miles_driven, 1)
         colored_output('bright_yellow', 'Truck ' + str(self.id) + ' driving '+ str(distance) + ' miles to ' + location + '...')
 
         # pass the time
