@@ -1,13 +1,19 @@
 import copy
 from datetime import datetime
+from collections import defaultdict
 
 class History:
-    def __init__(self, package_map):
-        self.package_map = package_map
-        self.data = {}
+    def __init__(self):
+        self.package_states = {}
 
-    def save(self, time):
-        self.data[time] = copy.deepcopy(self.package_map)
+    def save(self, time, package, new_state):
+        if package not in self.package_states:
+            self.package_states[package] = {
+                "AT THE HUB": "8:00AM",
+                "EN ROUTE": None,
+                "DELIVERED": None
+            }  
+        self.package_states[package][new_state] = time
 
     def get(self, query_time):
         query_time_dt = datetime.strptime(query_time, "%I:%M%p")
