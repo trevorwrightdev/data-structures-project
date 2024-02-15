@@ -4,7 +4,7 @@ from truck import Truck
 from logs import print_line, colored_output
 import csv
 
-packages = None
+packages = HashMap(40)
 
 def get_package_csv():
     data = []
@@ -57,19 +57,7 @@ def delivery_algorithm(truck, drive_back_to_hub = True):
 def lookup(package_id):
     return packages.get(package_id)
         
-def main():
-    print('\n')
-    colored_output('cyan', 'Welcome to the WGUPS package delivery system! What would you like to do?')
-    print('\n')
-    colored_output('green', 's - Begin Package Delivery Simulation and Package Lookup')
-    colored_output('green', 'q - Quit')
-    print('\n')
-
-    user_input = input('>')
-
-    if user_input != 's':
-        return
-    
+def simulation():
     # * Algorithm
     # map of packages with package id as key and package object as value
     packages = get_package_map()
@@ -150,5 +138,20 @@ def main():
     colored_output('green', 'Total miles driven by both trucks: ' + str(truck1.miles_driven + truck2.miles_driven) + ' miles')
 
     pass
+
+def main():
+    print('\n')
+    colored_output('cyan', 'Welcome to the WGUPS package delivery system! What would you like to do?')
+    print('\n')
+    colored_output('green', 's - Begin Package Delivery Simulation and Package Lookup')
+    colored_output('green', 'q - Quit')
+    print('\n')
+
+    user_input = input('>')
+
+    if user_input != 's':
+        return
+    
+    simulation()
 
 main()
