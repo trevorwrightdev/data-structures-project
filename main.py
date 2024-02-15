@@ -103,6 +103,17 @@ def main():
     delivery_algorithm(truck1)
     delivery_algorithm(truck2)
 
+    # Loading phase
+    load_truck(truck2, [
+        packages.get(6),
+        packages.get(25),
+        packages.get(28),
+        packages.get(32),
+    ])
+
+    # Delivery phase
+    delivery_algorithm(truck2)
+
     pass
 
 main()
