@@ -4,6 +4,8 @@ from truck import Truck
 from logs import print_line, colored_output
 import csv
 
+packages = None
+
 def get_package_csv():
     data = []
     with open('packages.csv', 'r', newline='') as csvfile:
@@ -51,6 +53,9 @@ def delivery_algorithm(truck, drive_back_to_hub = True):
     
     colored_output('red', 'Total miles driven by truck ' + str(truck.id) + ': ' + str(truck.miles_driven) + ' miles')
     print_line()
+
+def lookup(package_id):
+    return packages.get(package_id)
         
 def main():
     print('\n')
