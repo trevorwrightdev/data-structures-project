@@ -152,5 +152,8 @@ def main():
         return
     
     history = simulation()
+    test = history.get('8:00AM')
+    for package in test:
+        package.print()
 
 main()
