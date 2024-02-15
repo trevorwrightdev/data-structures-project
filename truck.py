@@ -51,7 +51,7 @@ class Truck:
 
         self.loaded_packages.append(package)
         package.update_status("EN ROUTE")
-        history.save(self.current_time)
+        history.save(self.current_time, package, "EN ROUTE")
     
     def drive_to_location(self, location):
         # get distance between locations
@@ -75,7 +75,7 @@ class Truck:
                 packages_unloaded.append(package)
                 colored_output('bright_green', 'Package ' + str(package.id) + ' has been delivered to ' + self.current_location + '!')
 
-                history.save(self.current_time)
+                history.save(self.current_time, package, "DELIVERED")
         
         # Remove unloaded packages from self.loaded_packages
         for package in packages_unloaded:

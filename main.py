@@ -58,7 +58,7 @@ def simulation():
     # map of packages with package id as key and package object as value
     packages = get_package_map()
 
-    history = History(packages)
+    history = History()
 
     truck1 = Truck(1)
     truck2 = Truck(2)
@@ -152,8 +152,5 @@ def main():
         return
     
     history = simulation()
-    test = history.get("5:00PM")
-    for i in range(1, 41):
-        test.get(i).print()
 
 main()

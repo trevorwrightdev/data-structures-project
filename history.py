@@ -1,6 +1,4 @@
-import copy
 from datetime import datetime
-from collections import defaultdict
 
 class History:
     def __init__(self):
