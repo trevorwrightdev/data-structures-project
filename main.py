@@ -1,10 +1,12 @@
 from hashmap import HashMap
 from package import Package
 from truck import Truck
+from history import History
 from logs import print_line, colored_output
 import csv
 
 packages = HashMap(40)
+history = History(packages)
 
 def get_package_csv():
     data = []
@@ -30,15 +32,15 @@ def get_package_map():
         map.insert(package_id, new_package)
     return map
 
-def load_truck(truck, packages):
+def load_truck(truck, history, packages):
     print_line()
     colored_output('blue', 'TRUCK ' + str(truck.id) + ' LOADING PHASE')
     for package in packages:
         colored_output('cyan', 'Loading package ' + str(package.id) + ' into truck ' + str(truck.id) + '...')
-        truck.load(package)
+        truck.load(package, history)
     print_line()
 
-def delivery_algorithm(truck, drive_back_to_hub = True):
+def delivery_algorithm(truck, history, drive_back_to_hub = True):
     print_line()
     colored_output('green', 'TRUCK ' + str(truck.id) + ' DELIVERY PHASE')
 
@@ -46,7 +48,7 @@ def delivery_algorithm(truck, drive_back_to_hub = True):
     while (len(truck.loaded_packages) > 0):
         nearest_package = truck.get_nearest_package()
         truck.drive_to_location(nearest_package.delivery_address)
-        truck.unload()
+        truck.unload(history)
 
     if drive_back_to_hub:
         truck.drive_to_location("HUB")
@@ -61,11 +63,13 @@ def simulation():
     # * Algorithm
     # map of packages with package id as key and package object as value
     packages = get_package_map()
+    history = History(packages)
+
     truck1 = Truck(1)
     truck2 = Truck(2)
 
     # Loading phase 
-    load_truck(truck1, [
+    load_truck(truck1, history, [
         packages.get(1),
         packages.get(13),
         packages.get(14),
@@ -83,7 +87,7 @@ def simulation():
         packages.get(39),
         packages.get(40)
     ])
-    load_truck(truck2, [   
+    load_truck(truck2, history, [   
         packages.get(2),
         packages.get(3),
         packages.get(4),
@@ -95,11 +99,11 @@ def simulation():
     ])
 
     # Delivery phase
-    delivery_algorithm(truck1)
-    delivery_algorithm(truck2)
+    delivery_algorithm(truck1, history)
+    delivery_algorithm(truck2, history)
 
     # Loading phase
-    load_truck(truck1, [
+    load_truck(truck1, history, [
         packages.get(12),
         packages.get(17),
         packages.get(19),
@@ -109,7 +113,7 @@ def simulation():
         packages.get(26),
         packages.get(27),
     ])
-    load_truck(truck2, [
+    load_truck(truck2, history, [
         packages.get(6),
         packages.get(25),
         packages.get(28),
@@ -117,11 +121,11 @@ def simulation():
     ])
 
     # Delivery phase
-    delivery_algorithm(truck1, False)
-    delivery_algorithm(truck2)
+    delivery_algorithm(truck1, history, False)
+    delivery_algorithm(truck2, history)
 
     # Loading phase
-    load_truck(truck2, [
+    load_truck(truck2, history, [
         packages.get(9),
         packages.get(18),
         packages.get(36),
@@ -129,7 +133,7 @@ def simulation():
     ])
 
     # Delivery phase
-    delivery_algorithm(truck2, False)
+    delivery_algorithm(truck2, history, False)
 
     colored_output('cyan', 'All packages have been delivered! Thank you for using the WGUPS package delivery system!')
     colored_output('blue', 'Stats:')
@@ -137,7 +141,6 @@ def simulation():
     colored_output('cyan', 'Total miles driven by truck 2: ' + str(truck2.miles_driven) + ' miles')
     colored_output('green', 'Total miles driven by both trucks: ' + str(truck1.miles_driven + truck2.miles_driven) + ' miles')
 
-    pass
 
 def main():
     print('\n')
@@ -152,6 +155,6 @@ def main():
     if user_input != 's':
         return
     
-    simulation()
+    history = simulation()
 
 main()

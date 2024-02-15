@@ -43,7 +43,7 @@ class Truck:
         self.miles_driven = 0.0
         self.current_time = "08:00AM"
     
-    def load(self, package):
+    def load(self, package, history):
         if len(self.loaded_packages) == 16:
             raise Exception("Truck is full")
         if self.current_location != "HUB":
@@ -51,6 +51,7 @@ class Truck:
 
         self.loaded_packages.append(package)
         package.update_status("EN ROUTE")
+        history.save(self.current_time)
     
     def drive_to_location(self, location):
         # get distance between locations
@@ -64,7 +65,7 @@ class Truck:
 
         colored_output('bright_yellow', 'Truck ' + str(self.id) + ' drives '+ str(distance) + ' miles to ' + location + ' and arrives at ' + self.current_time)
 
-    def unload(self):
+    def unload(self, history):
         packages_unloaded = []
 
         for package in self.loaded_packages:
@@ -73,6 +74,8 @@ class Truck:
                 package.delivery_time = self.current_time
                 packages_unloaded.append(package)
                 colored_output('bright_green', 'Package ' + str(package.id) + ' has been delivered to ' + self.current_location + '!')
+
+                history.save(self.current_time)
         
         # Remove unloaded packages from self.loaded_packages
         for package in packages_unloaded:
