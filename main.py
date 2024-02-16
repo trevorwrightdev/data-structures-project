@@ -1,3 +1,7 @@
+# Student ID: 010205839
+# Name: Trevor Wright
+# Class: C950
+
 from hashmap import HashMap
 from package import Package
 from truck import Truck
@@ -167,7 +171,6 @@ def main():
         main()
         return
 
-
     while (True):
         print('\n')
         colored_output('cyan', 'Please enter the time you would like to look up in the format HH:MMAM/PM. For example, 9:00AM. Or, enter q to exit the program.')
@@ -181,6 +184,4 @@ def main():
         for package in snapshot:
             package.print()
     
-    
-
 main()

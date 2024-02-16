@@ -44,21 +44,5 @@ class HashMap:
             return record_val
         else:
             return "No record found"
- 
-    def delete_val(self, key):
-       
-        hashed_key = hash(key) % self.size
-         
-        bucket = self.hash_table[hashed_key]
- 
-        found_key = False
-        for index, record in enumerate(bucket):
-            record_key, record_val = record
-             
-            if record_key == key:
-                found_key = True
-                break
-        if found_key:
-            bucket.pop(index)
-        return
+
  
