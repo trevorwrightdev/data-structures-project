@@ -141,7 +141,7 @@ def simulation():
     colored_output('green', 'Total miles driven by both trucks: ' + str(round(truck1.miles_driven + truck2.miles_driven, 2)) + ' miles')
     print_line()
 
-    return history
+    return [history, truck1, truck2]
 
 def main():
     while (True):
@@ -157,33 +157,38 @@ def main():
         if user_input != 's':
             break
         
-        history = simulation()
+        [history, truck1, truck2] = simulation()
 
         while (True):
             print('\n')
             colored_output('cyan', 'The simulation is complete. What would you like to do next?')
             print('\n')
             colored_output('green', 's - Package Lookup')
+            colored_output('green', 't - Truck Stats')
             colored_output('green', 'b - Back to Main Menu')
             print('\n')
 
             user_input = input('>')
 
             # go back to main menu 
-            if user_input != 's':
+            if user_input == 's':
+                while (True):
+                    print('\n')
+                    colored_output('cyan', 'Please enter the time you would like to look up in the format HH:MMAM/PM. For example, 9:00AM. Or, enter q to exit the query program.')
+                    print('\n')
+
+                    user_input = input('>')
+                    if user_input == 'q':
+                        break
+
+                    snapshot = history.get(user_input)
+                    for package in snapshot:
+                        package.print()
+            elif user_input == 't':
+                colored_output('blue', 'Truck 1 Mileage: ' + str(round(truck1.miles_driven, 2)))
+                colored_output('blue', 'Truck 2 Mileage: ' + str(round(truck2.miles_driven, 2)))
+                colored_output('blue', 'Total Mileage: ' + str(round(truck1.miles_driven + truck2.miles_driven, 2)))
+            else:
                 break
-
-            while (True):
-                print('\n')
-                colored_output('cyan', 'Please enter the time you would like to look up in the format HH:MMAM/PM. For example, 9:00AM. Or, enter q to exit the query program.')
-                print('\n')
-
-                user_input = input('>')
-                if user_input == 'q':
-                    break
-
-                snapshot = history.get(user_input)
-                for package in snapshot:
-                    package.print()
     
 main()
