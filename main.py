@@ -144,44 +144,46 @@ def simulation():
     return history
 
 def main():
-    print('\n')
-    colored_output('cyan', 'Welcome to the WGUPS package delivery system! What would you like to do?')
-    print('\n')
-    colored_output('green', 's - Begin Package Delivery Simulation and Package Lookup')
-    colored_output('green', 'q - Quit')
-    print('\n')
-
-    user_input = input('>')
-
-    if user_input != 's':
-        return
-    
-    history = simulation()
-
-    print('\n')
-    colored_output('cyan', 'The simulation is complete. What would you like to do next?')
-    print('\n')
-    colored_output('green', 's - Package Lookup')
-    colored_output('green', 'b - Back to Main Menu')
-    print('\n')
-
-    user_input = input('>')
-
-    if user_input != 's':
-        main()
-        return
-
     while (True):
         print('\n')
-        colored_output('cyan', 'Please enter the time you would like to look up in the format HH:MMAM/PM. For example, 9:00AM. Or, enter q to exit the program.')
+        colored_output('cyan', 'Welcome to the WGUPS package delivery system! What would you like to do?')
+        print('\n')
+        colored_output('green', 's - Begin Package Delivery Simulation and Package Lookup')
+        colored_output('green', 'q - Quit')
         print('\n')
 
         user_input = input('>')
-        if user_input == 'q':
-            return
 
-        snapshot = history.get(user_input)
-        for package in snapshot:
-            package.print()
+        if user_input != 's':
+            break
+        
+        history = simulation()
+
+        while (True):
+            print('\n')
+            colored_output('cyan', 'The simulation is complete. What would you like to do next?')
+            print('\n')
+            colored_output('green', 's - Package Lookup')
+            colored_output('green', 'b - Back to Main Menu')
+            print('\n')
+
+            user_input = input('>')
+
+            # go back to main menu 
+            if user_input != 's':
+                break
+
+            while (True):
+                print('\n')
+                colored_output('cyan', 'Please enter the time you would like to look up in the format HH:MMAM/PM. For example, 9:00AM. Or, enter q to exit the query program.')
+                print('\n')
+
+                user_input = input('>')
+                if user_input == 'q':
+                    break
+
+                snapshot = history.get(user_input)
+                for package in snapshot:
+                    package.print()
     
 main()
