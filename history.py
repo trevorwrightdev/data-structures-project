@@ -14,9 +14,14 @@ class History:
             }  
         self.package_states[package][new_state] = time
 
-    def get(self, query_time):
+    def get_by_time(self, query_time):
         package_history = []
         query_time_dt = datetime.strptime(query_time, "%I:%M%p")
+
+        earliest_time_dt = datetime.strptime("7:59AM", "%I:%M%p")
+        if query_time_dt < earliest_time_dt:
+            query_time_dt = earliest_time_dt
+
         for package, states in self.package_states.items():
             latest_state = None
             latest_time_dt = None

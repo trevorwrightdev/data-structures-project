@@ -181,9 +181,44 @@ def main():
                     if user_input == 'q':
                         break
 
-                    snapshot = history.get(user_input)
-                    for package in snapshot:
-                        package.print()
+                    try:
+                        snapshot = history.get_by_time(user_input)
+                    except ValueError:
+                        colored_output('red', 'Invalid time format. Please enter a time in the format HH:MMAM/PM.')
+                        continue
+
+                    colored_output('cyan', 'a - Show all package states at this time')
+                    colored_output('cyan', 'i - Show individual package state by ID at this time')
+
+                    user_input = input('>')
+                    if user_input == 'i':
+                        print('\n')
+                        colored_output('cyan', 'Please enter the package ID you would like to look up.')
+                        print('\n')
+
+                        user_input = input('>')
+
+                        target_package = None
+
+                        for package in snapshot:
+                            try:
+                                input_id = int(user_input)
+                            except ValueError:
+                                input_id = -1
+                                break
+
+                            if package.id == input_id:
+                                target_package = package
+                                break  
+
+                        if target_package:
+                            target_package.print()
+                        else:
+                            colored_output('red', 'No package with that ID was found.')
+
+                    elif user_input == 'a':
+                        for package in snapshot:
+                            package.print()
             elif user_input == 't':
                 colored_output('blue', 'Truck 1 Mileage: ' + str(round(truck1.miles_driven, 2)))
                 colored_output('blue', 'Truck 2 Mileage: ' + str(round(truck2.miles_driven, 2)))
