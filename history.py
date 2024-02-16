@@ -2,9 +2,12 @@ from datetime import datetime
 import copy
 
 class History:
+
+    # This class is used to keep track of the state of packages at different times.
     def __init__(self):
         self.package_states = {}
 
+    # This function takes a time, a package, and a new state and saves the state change to the history.
     def save(self, time, package, new_state):
         if package not in self.package_states:
             self.package_states[package] = {
@@ -14,6 +17,7 @@ class History:
             }  
         self.package_states[package][new_state] = time
 
+    # returns a snapshot of all of the package states based on the time given
     def get_by_time(self, query_time):
         package_history = []
         query_time_dt = datetime.strptime(query_time, "%I:%M%p")

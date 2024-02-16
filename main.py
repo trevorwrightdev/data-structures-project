@@ -9,6 +9,7 @@ from history import History
 from logs import print_line, colored_output
 import csv
 
+# This function simply reads the packages.csv file and returns the data as a list of dictionaries.
 def get_package_csv():
     data = []
     with open('packages.csv', 'r', newline='') as csvfile:
@@ -17,6 +18,7 @@ def get_package_csv():
             data.append(row)
     return data
 
+# This function reads the package data from the csv file and creates a hashmap with the package id as the key and the package object as the value.
 def get_package_map():
     package_csv_data = get_package_csv()
     # Initializing the hashmap with 40 elements, one for each package. 
@@ -33,6 +35,7 @@ def get_package_map():
         map.insert(package_id, new_package)
     return map
 
+# This function loads a truck with packages and logs the loading process. This did not have to be its own function, but I did not want to repeat the logging code.
 def load_truck(truck, history, packages):
     print_line()
     colored_output('blue', 'TRUCK ' + str(truck.id) + ' LOADING PHASE')
@@ -41,6 +44,7 @@ def load_truck(truck, history, packages):
         truck.load(package, history)
     print_line()
 
+# This function takes a truck and a list of packages and delivers the package using a greedy nearest neighbor algorithm
 def delivery_algorithm(truck, history, drive_back_to_hub = True):
     print_line()
     colored_output('green', 'TRUCK ' + str(truck.id) + ' DELIVERY PHASE')
@@ -57,6 +61,7 @@ def delivery_algorithm(truck, history, drive_back_to_hub = True):
     colored_output('red', 'Total miles driven by truck ' + str(truck.id) + ': ' + str(round(truck.miles_driven, 2)) + ' miles')
     print_line()
         
+# This is the main simulation function. It initializes the trucks, loads them with packages, delivers the packages, and logs the results.
 def simulation():
     # * Algorithm
     # map of packages with package id as key and package object as value
@@ -145,6 +150,7 @@ def simulation():
 
 def main():
     while (True):
+        # Introductory text
         print('\n')
         colored_output('cyan', 'Welcome to the WGUPS package delivery system! What would you like to do?')
         print('\n')
@@ -157,8 +163,10 @@ def main():
         if user_input != 's':
             break
         
+        # Runs the simulation
         [history, truck1, truck2] = simulation()
 
+        # Package lookup and truck stats interface
         while (True):
             print('\n')
             colored_output('cyan', 'The simulation is complete. What would you like to do next?')
@@ -170,7 +178,6 @@ def main():
 
             user_input = input('>')
 
-            # go back to main menu 
             if user_input == 's':
                 while (True):
                     print('\n')
@@ -181,6 +188,7 @@ def main():
                     if user_input == 'q':
                         break
 
+                    # Wrapped in a try except because times could be formatted wrong 
                     try:
                         snapshot = history.get_by_time(user_input)
                     except ValueError:
@@ -193,6 +201,7 @@ def main():
 
                         user_input = input('>')
                         if user_input == 'i':
+                            # This will look through the snapshot for the package with the given ID and print its state
                             print('\n')
                             colored_output('cyan', 'Please enter the package ID you would like to look up.')
                             print('\n')
@@ -218,6 +227,7 @@ def main():
                                 colored_output('red', 'No package with that ID was found.')
                             break
                         elif user_input == 'a':
+                            # Prints all the packages in the snapshot
                             for package in snapshot:
                                 package.print()
                             break
@@ -225,6 +235,7 @@ def main():
                             colored_output('red', 'Invalid input. Please enter a or i.')
                             continue
             elif user_input == 't':
+                # Prints the total mileage for both trucks
                 colored_output('blue', 'Truck 1 Mileage: ' + str(round(truck1.miles_driven, 2)))
                 colored_output('blue', 'Truck 2 Mileage: ' + str(round(truck2.miles_driven, 2)))
                 colored_output('blue', 'Total Mileage: ' + str(round(truck1.miles_driven + truck2.miles_driven, 2)))
