@@ -187,38 +187,43 @@ def main():
                         colored_output('red', 'Invalid time format. Please enter a time in the format HH:MMAM/PM.')
                         continue
 
-                    colored_output('cyan', 'a - Show all package states at this time')
-                    colored_output('cyan', 'i - Show individual package state by ID at this time')
-
-                    user_input = input('>')
-                    if user_input == 'i':
-                        print('\n')
-                        colored_output('cyan', 'Please enter the package ID you would like to look up.')
-                        print('\n')
+                    while (True):
+                        colored_output('cyan', 'a - Show all package states at this time')
+                        colored_output('cyan', 'i - Show individual package state by ID at this time')
 
                         user_input = input('>')
+                        if user_input == 'i':
+                            print('\n')
+                            colored_output('cyan', 'Please enter the package ID you would like to look up.')
+                            print('\n')
 
-                        target_package = None
+                            user_input = input('>')
 
-                        for package in snapshot:
-                            try:
-                                input_id = int(user_input)
-                            except ValueError:
-                                input_id = -1
-                                break
+                            target_package = None
 
-                            if package.id == input_id:
-                                target_package = package
-                                break  
+                            for package in snapshot:
+                                try:
+                                    input_id = int(user_input)
+                                except ValueError:
+                                    input_id = -1
+                                    break
 
-                        if target_package:
-                            target_package.print()
+                                if package.id == input_id:
+                                    target_package = package
+                                    break  
+
+                            if target_package:
+                                target_package.print()
+                            else:
+                                colored_output('red', 'No package with that ID was found.')
+                            break
+                        elif user_input == 'a':
+                            for package in snapshot:
+                                package.print()
+                            break
                         else:
-                            colored_output('red', 'No package with that ID was found.')
-
-                    elif user_input == 'a':
-                        for package in snapshot:
-                            package.print()
+                            colored_output('red', 'Invalid input. Please enter a or i.')
+                            continue
             elif user_input == 't':
                 colored_output('blue', 'Truck 1 Mileage: ' + str(round(truck1.miles_driven, 2)))
                 colored_output('blue', 'Truck 2 Mileage: ' + str(round(truck2.miles_driven, 2)))
